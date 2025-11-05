@@ -50,6 +50,32 @@ h1 {
   font-weight: 600;
 }
 
+#homeBtn {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  color: #000;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 9999;
+}
+#homeBtn:hover {
+  background: white;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+#homeBtn i {
+  font-size: 1rem;
+}
+
+
 /* top config row */
 #configRow {
   display: flex;
@@ -403,6 +429,26 @@ h1 {
   letter-spacing: -0.5px;
 }
 
+#gotoWrapper {
+  position: relative;
+  z-index: 100;
+}
+
+#gotoPanel {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  z-index: 9999; /* ensures it appears above blur layers */
+  background: white;
+  border: 2px solid var(--primary-dark);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: none;
+  max-height: 70vh;
+  overflow-y: auto; /* prevents overflow off-screen */
+}
+
 /* Remove scrollbar look globally */
 ::-webkit-scrollbar { display: none; }
 
@@ -421,16 +467,26 @@ h1 {
 <body>
   <main>
     <h1>Nārāyaṇīyam Player</h1>
+<button id="homeBtn" onclick="window.location.href='https://www.nivi108.com'">
+  <i class="fas fa-home"></i> Home
+</button>
 
 
 <!-- audio controls - always visible -->
 <div id="audioControls" aria-label="Audio controls">
 
   <!-- Main controls row -->
-  <div class="control-row"><button id="prevDashakamBtn" class="btn-with-label" aria-label="Previous Dashakam">
-  <i class="fas fa-step-backward"></i>
-  <span class="btn-label-small">Dashakam</span>
-</button>
+  <div class="control-row">
+  <button id="prev10Btn" class="btn-with-label" aria-label="Previous 10 Dashakams">
+    <i class="fas fa-backward"></i>
+    <span class="btn-label-small">−10</span>
+  </button>
+
+  <button id="prevDashakamBtn" class="btn-with-label" aria-label="Previous Dashakam">
+    <i class="fas fa-step-backward"></i>
+    <span class="btn-label-small">Dashakam</span>
+  </button>
+
 
 <button id="prevVerseBtn" class="btn-with-label" aria-label="Previous Verse">
   <i class="fas fa-backward"></i>
@@ -467,6 +523,13 @@ h1 {
   <span class="btn-label-small">Dashakam</span>
   <i class="fas fa-step-forward"></i>
 </button>
+
+  <button id="next10Btn" class="btn-with-label" aria-label="Next 10 Dashakams">
+    <span class="btn-label-small">+10</span>
+    <i class="fas fa-forward"></i>
+  </button>
+</div>
+
 
   </div>
 
@@ -547,6 +610,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const playPauseBtn = document.getElementById('playPauseBtn');
   const prevDashakamBtn = document.getElementById('prevDashakamBtn');
   const nextDashakamBtn = document.getElementById('nextDashakamBtn');
+ const prev10Btn = document.getElementById('prev10Btn');
+ const next10Btn = document.getElementById('next10Btn');
   const prevVerseBtn = document.getElementById('prevVerseBtn');
   const nextVerseBtn = document.getElementById('nextVerseBtn');
   const repeatVerseBtn = document.getElementById('repeatVerseBtn');
@@ -1000,6 +1065,17 @@ audio.addEventListener("timeupdate", async () => {
   nextDashakamBtn.addEventListener('click', () => {
     if (currentDashakam < totalDashakams) loadDashakam(String(currentDashakam + 1).padStart(3, '0'));
   });
+
+prev10Btn.addEventListener('click', () => {
+  const target = Math.max(1, currentDashakam - 10);
+  loadDashakam(String(target).padStart(3, '0'), true);
+});
+
+next10Btn.addEventListener('click', () => {
+  const target = Math.min(totalDashakams, currentDashakam + 10);
+  loadDashakam(String(target).padStart(3, '0'), true);
+});
+
 
 /*** Repeat toggles (mutually exclusive, with save + visual feedback) ***/
 repeatVerseBtn.addEventListener('click', () => {
