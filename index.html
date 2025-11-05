@@ -87,15 +87,17 @@ h1 {
 /* unified style selector row */
 #styleSelectorRow {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.4);
+  flex-wrap: wrap;            /* Ensure items wrap on smaller screens */
+  align-items: center;        /* Vertically center items */
+  justify-content: center;    /* Horizontally center items */
+  gap: 1.125rem;              /* 18px converted to rem for scalability */
+  padding: 0.375rem 0.625rem; /* 6px 10px converted to rem */
+  border-radius: 0.625rem;    /* 10px in rem */
+  background-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(6px); /* Optional: makes semi-transparent background look smoother */
 }
+
 
 #speedBtn {
   min-width: 70px;
@@ -221,17 +223,17 @@ h1 {
 }
 .time-row {
   display: flex;
+  flex-wrap: wrap; /* allow items to wrap to next line */
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  border-top: 2px solid var(--primary-dark);
-  padding-top: 10px;
+  justify-content: space-between; /* space out left/right sections */
+  gap: 8px; /* optional for spacing when wrapped */
 }
+
 .time-left, .time-right {
   display: flex;
+  flex-wrap: wrap; /* allow buttons to wrap */
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 /* buttons */
@@ -472,76 +474,53 @@ h1 {
 </button>
 
 
-<!-- audio controls - always visible -->
+<!-- audio controls - unified panel -->
 <div id="audioControls" aria-label="Audio controls">
 
   <!-- Main controls row -->
   <div class="control-row">
-  <button id="prev10Btn" class="btn-with-label" aria-label="Previous 10 Dashakams">
-    <i class="fas fa-backward"></i>
-    <span class="btn-label-small">−10</span>
-  </button>
-
-  <button id="prevDashakamBtn" class="btn-with-label" aria-label="Previous Dashakam">
-    <i class="fas fa-step-backward"></i>
-    <span class="btn-label-small">Dashakam</span>
-  </button>
-
-
-<button id="prevVerseBtn" class="btn-with-label" aria-label="Previous Verse">
-  <i class="fas fa-backward"></i>
-  <span class="btn-label-small">Verse</span>
-</button>
-
-<button id="playPauseBtn" class="icon-btn" aria-label="Play or Pause">
-  <i class="fas fa-play"></i>
-</button>
-
-
-<button id="muteBtn" class="icon-btn" title="Mute" aria-label="Mute or Unmute">
-  <i class="fas fa-volume-up"></i>
-</button>
-
-<button id="speedBtn" class="icon-btn" title="Change Speed" aria-label="Change Playback Speed">
-  <i class="fas fa-tachometer-alt"></i>
-</button>
-
-<button id="repeatVerseBtn" class="icon-btn" title="Repeat Verse" aria-label="Repeat Verse">
-  <i class="fas fa-redo"></i>
-</button>
-
-<button id="repeatDashakamBtn" class="icon-btn" title="Repeat Dashakam" aria-label="Repeat Dashakam">
-  <i class="fas fa-infinity"></i>
-</button>
-
-<button id="nextVerseBtn" class="btn-with-label" aria-label="Next Verse">
-  <span class="btn-label-small">Verse</span>
-  <i class="fas fa-forward"></i>
-</button>
-
-<button id="nextDashakamBtn" class="btn-with-label" aria-label="Next Dashakam">
-  <span class="btn-label-small">Dashakam</span>
-  <i class="fas fa-step-forward"></i>
-</button>
-
-  <button id="next10Btn" class="btn-with-label" aria-label="Next 10 Dashakams">
-    <span class="btn-label-small">+10</span>
-    <i class="fas fa-forward"></i>
-  </button>
-</div>
-
-
+    <button id="prev10Btn" class="btn-with-label" aria-label="Previous 10 Dashakams">
+      <i class="fas fa-backward"></i><span class="btn-label-small">−10</span>
+    </button>
+    <button id="prevDashakamBtn" class="btn-with-label" aria-label="Previous Dashakam">
+      <i class="fas fa-step-backward"></i><span class="btn-label-small">Dashakam</span>
+    </button>
+    <button id="prevVerseBtn" class="btn-with-label" aria-label="Previous Verse">
+      <i class="fas fa-backward"></i><span class="btn-label-small">Verse</span>
+    </button>
+    <button id="playPauseBtn" class="icon-btn" aria-label="Play or Pause">
+      <i class="fas fa-play"></i>
+    </button>
+    <button id="muteBtn" class="icon-btn" title="Mute" aria-label="Mute or Unmute">
+      <i class="fas fa-volume-up"></i>
+    </button>
+    <button id="speedBtn" class="icon-btn" title="Change Speed" aria-label="Change Playback Speed">
+      <i class="fas fa-tachometer-alt"></i>
+    </button>
+    <button id="repeatVerseBtn" class="icon-btn" title="Repeat Verse" aria-label="Repeat Verse">
+      <i class="fas fa-redo"></i>
+    </button>
+    <button id="repeatDashakamBtn" class="icon-btn" title="Repeat Dashakam" aria-label="Repeat Dashakam">
+      <i class="fas fa-infinity"></i>
+    </button>
+    <button id="nextVerseBtn" class="btn-with-label" aria-label="Next Verse">
+      <span class="btn-label-small">Verse</span><i class="fas fa-forward"></i>
+    </button>
+    <button id="nextDashakamBtn" class="btn-with-label" aria-label="Next Dashakam">
+      <span class="btn-label-small">Dashakam</span><i class="fas fa-step-forward"></i>
+    </button>
+    <button id="next10Btn" class="btn-with-label" aria-label="Next 10 Dashakams">
+      <span class="btn-label-small">+10</span><i class="fas fa-forward"></i>
+    </button>
   </div>
 
   <!-- Time + transliteration toggle + Go to -->
   <div class="time-row">
-<div class="time-left">
-  <button id="translitToggle">English Transliteration</button>
-  <div id="currentInfo">Dashakam — Verse —</div>
-  <div id="timeDisplay">Elapsed: 00:00 | Remaining: 00:00 | Total Elapsed: 00:00 | Total Remaining: 00:00</div>
-</div>
-
-
+    <div class="time-left">
+      <button id="translitToggle">English Transliteration</button>
+      <div id="currentInfo">Dashakam — Verse —</div>
+      <div id="timeDisplay">Elapsed: 00:00 | Remaining: 00:00</div>
+    </div>
     <div class="time-right">
       <div id="gotoWrapper">
         <button id="gotoToggle">Go to ▾</button>
@@ -551,44 +530,46 @@ h1 {
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Top config row (themes, font size, font selector) -->
+  <div id="configRow">
+    <div id="styleSelectorRow">
+      <!-- Theme dots -->
+      <div id="themeDots" class="theme-dots">
+        <button class="theme-dot" data-theme="green" aria-label="Green theme"></button>
+        <button class="theme-dot" data-theme="blue" aria-label="Blue theme"></button>
+        <button class="theme-dot" data-theme="brown" aria-label="Brown theme"></button>
+        <button class="theme-dot" data-theme="purple" aria-label="Purple theme"></button>
+        <button class="theme-dot" data-theme="teal" aria-label="Teal theme"></button>
+        <button class="theme-dot" data-theme="charcoal" aria-label="Charcoal theme"></button>
+        <button class="theme-dot" data-theme="maroon" aria-label="Maroon theme"></button>
+        <button class="theme-dot" data-theme="custom" aria-label="Custom theme"></button>
+      </div>
 
+      <div class="config-divider"></div>
 
-<!-- top config row -->
-<div id="configRow">
-  <div id="styleSelectorRow">
-    <!-- Theme dots -->
-    <div id="themeDots" class="theme-dots">
-      <button class="theme-dot" data-theme="green" aria-label="Green theme"></button>
-      <button class="theme-dot" data-theme="blue" aria-label="Blue theme"></button>
-      <button class="theme-dot" data-theme="brown" aria-label="Brown theme"></button>
-      <button class="theme-dot" data-theme="purple" aria-label="Purple theme"></button>
-      <button class="theme-dot" data-theme="teal" aria-label="Teal theme"></button>
-      <button class="theme-dot" data-theme="charcoal" aria-label="Charcoal theme"></button>
-      <button class="theme-dot" data-theme="maroon" aria-label="Maroon theme"></button>
-      <button class="theme-dot" data-theme="custom" aria-label="Custom theme"></button>
-    </div>
-<div class="config-divider"></div>
-<div id="fontSizeControls" class="font-size-controls">
-  <button id="fontSmaller" title="Decrease font size">A−</button>
-  <button id="fontLarger" title="Increase font size">A+</button>
-</div>
+      <!-- Font size controls -->
+      <div id="fontSizeControls" class="font-size-controls">
+        <button id="fontSmaller" title="Decrease font size">A−</button>
+        <button id="fontLarger" title="Increase font size">A+</button>
+      </div>
 
-    <!-- UI font choices -->
-    <div id="uiFontOptions" class="font-options">
-      <div class="font-swatch" data-font='"Poppins", "Segoe UI", sans-serif' style="font-family:'Poppins',sans-serif;">Po</div>
-      <div class="font-swatch" data-font='"Roboto", "Segoe UI", sans-serif' style="font-family:'Roboto',sans-serif;">Ro</div>
-      <div class="font-swatch" data-font='"Merriweather", serif' style="font-family:'Merriweather',serif;">Me</div>
-    </div>
+      <!-- UI font options -->
+      <div id="uiFontOptions" class="font-options">
+        <div class="font-swatch" data-font='"Poppins", "Segoe UI", sans-serif'>Po</div>
+        <div class="font-swatch" data-font='"Roboto", "Segoe UI", sans-serif'>Ro</div>
+        <div class="font-swatch" data-font='"Merriweather", serif'>Me</div>
+      </div>
 
-    <!-- Devanagari font choices -->
-    <div id="devaFontOptions" class="font-options">
-      <div class="font-swatch" data-font='"Tiro Devanagari Hindi", serif' style="font-family:'Tiro Devanagari Hindi',serif;">ति</div>
-      <div class="font-swatch" data-font='"Noto Serif Devanagari", serif' style="font-family:'Noto Serif Devanagari',serif;">नो</div>
-      <div class="font-swatch" data-font='"Mukta Vaani", sans-serif' style="font-family:'Mukta Vaani',sans-serif;">मु</div>
+      <!-- Devanagari font options -->
+      <div id="devaFontOptions" class="font-options">
+        <div class="font-swatch" data-font='"Tiro Devanagari Hindi", serif'>ति</div>
+        <div class="font-swatch" data-font='"Noto Serif Devanagari", serif'>नो</div>
+        <div class="font-swatch" data-font='"Mukta Vaani", sans-serif'>मु</div>
+      </div>
     </div>
   </div>
+
 </div>
 
 
