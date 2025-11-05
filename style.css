@@ -1,0 +1,41 @@
+.verse {
+  font-family: "Noto Sans Devanagari", serif;
+  font-size: 1.6em;
+  line-height: 1.4;
+  color: #2c3e50;
+  margin-bottom: 2em; /* two line breaks approx */
+}
+
+.split-words {
+  font-family: "Arial", sans-serif;
+  font-size: 1.1em;
+  color: #34495e;
+  margin-bottom: 2em; /* two line breaks approx */
+  white-space: pre-wrap;
+}
+
+.meaning {
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  color: #7f8c8d;
+  white-space: pre-wrap;
+  /* no margin needed here */
+}
+
+#custom-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+  font-size: 1.5em;
+}
+
+#custom-controls button:hover {
+  color: #000;
+}
+
+#custom-controls button:focus {
+  outline: none;
+}
+

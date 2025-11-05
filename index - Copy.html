@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Narayaneeyam Verse Display</title>
+</head>
+<body>
+
+<label for="dashakamSelect">Select Dashakam:</label>
+<select id="dashakamSelect" style="width: 100%; max-width: 800px; margin-bottom: 15px;">
+  <!-- Options will be populated by script -->
+</select>
+
+<h2>Narayaneeyam Audio with Verses</h2>
+
+<!-- ✅ Audio Element -->
+<audio id="audio" controls preload="metadata" style="width: 100%; max-width: 800px;">
+  <source src="audio/Narayaneeyam_D001.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<!-- ✅ Custom Controls placed OUTSIDE the audio tag -->
+<div id="custom-controls" style="margin-top: 10px; font-size: 1.5em;">
+  <button id="repeatVerseBtn" title="Repeat Verse"><i class="fas fa-redo"></i></button>
+  <button id="repeatDashakamBtn" title="Repeat Dashakam"><i class="fas fa-infinity"></i></button>
+  <button id="speedBtn" title="Change Speed"><i class="fas fa-tachometer-alt"></i></button>
+</div>
+
+<!-- Subtitle Container -->
+<div id="subtitle-container">
+  <div class="verse" id="verse"></div>
+  <div class="split-words" id="splitWords"></div>
+  <div class="meaning" id="meaning"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
