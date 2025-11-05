@@ -25,7 +25,8 @@
   --deva-font: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif;
   --meaning-bg: rgba(255,255,255,0.94);
   --font-scale: 1;
-
+  --verse-font: calc(clamp(1.8rem, 3vw, 2.4rem) * var(--font-scale));
+  --split-font: calc(var(--verse-size, 1.4rem) * 0.7 * var(--font-scale));
 }
 
 /* smooth transitions */
@@ -331,23 +332,27 @@ button:focus-visible {
   text-align: center;
   line-height: 1.9;
 }
-#verse, #splitWords {
+#verse,
+#splitWords {
   font-family: var(--deva-font);
   letter-spacing: 0.02em;
   text-align: center;
 }
+
 #verse {
-  font-size: calc(clamp(1.8rem, 3vw, 2.4rem) * var(--font-scale));
+  font-size: var(--verse-font); /* Use CSS variable */
   font-weight: 700;
   color: var(--primary-dark);
   margin-bottom: 14px;
 }
+
 #splitWords {
-  font-size: calc(var(--verse-size) * 0.7 * var(--font-scale));
+  font-size: var(--split-font); /* Use CSS variable */
   font-style: italic;
   color: var(--primary);
   margin-bottom: 12px;
 }
+
 #meaning {
   font-family: var(--ui-font);
   font-size: 1.12rem;
@@ -361,7 +366,6 @@ button:focus-visible {
   border-radius: 10px;
   border: 1px solid rgba(0,0,0,0.03);
 }
-
 /* audio element */
 audio {
   display: block;
@@ -1174,14 +1178,16 @@ if (translitToggle) {
   const dashNum = String(currentDashakam).padStart(3, '0');
   cues = await loadVTT(`${vttFolder}/Narayaneeyam_D${dashNum}.vtt`);
 
-  // Adjust font size based on state
-  if (translitState === 'english' || translitState === 'malayalam') {
-    verseDiv.style.fontSize = '1.6rem';
-    splitWordsDiv.style.fontSize = '1.0rem';
-  } else { // devanagari
-    verseDiv.style.fontSize = 'calc(clamp(1.8rem, 3vw, 2.4rem) * var(--font-scale))';
-    splitWordsDiv.style.fontSize = 'calc(var(--verse-size) * 0.7 * var(--font-scale))';
-  }
+ 
+// Adjust font size based on state
+if (translitState === 'english' || translitState === 'malayalam') {
+  document.documentElement.style.setProperty('--verse-font', '1.6rem');
+  document.documentElement.style.setProperty('--split-font', '1.0rem');
+} else { // devanagari
+  document.documentElement.style.setProperty('--verse-font', 'calc(clamp(1.8rem, 3vw, 2.4rem) * var(--font-scale))');
+  document.documentElement.style.setProperty('--split-font', 'calc(var(--verse-size, 1.4rem) * 0.7 * var(--font-scale))');
+}
+
 
   if (cues.length > 0) {
     const idx = currentCueIndex >= 0 ? currentCueIndex : 0;
