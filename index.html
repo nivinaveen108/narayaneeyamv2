@@ -612,8 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const gotoPanel = document.getElementById('gotoPanel');
   const groupGrid = document.getElementById('groupGrid');
   const themeDots = document.getElementById('themeDots');
- const uiFontSelect = document.getElementById('uiFontOptions');
- const devaFontSelect = document.getElementById('devaFontOptions');
+ const uiFontOptions = document.getElementById('uiFontOptions');
+ const devaFontOptions = document.getElementById('devaFontOptions');
  const translitToggle = document.getElementById('translitToggle');
 
   /*** State ***/
@@ -985,6 +985,7 @@ audio.addEventListener("timeupdate", async () => {
 
 
   /*** Prev / Next Verse handlers ***/
+if (prevVerseBtn) {
   prevVerseBtn.addEventListener('click', async () => {
     if (!cues || cues.length === 0) return;
     let idx = currentCueIndex !== -1 ? currentCueIndex : getCueIndexAtTime();
@@ -1002,7 +1003,9 @@ audio.addEventListener("timeupdate", async () => {
       await jumpToCue(cues.length - 1);
     }
   });
+}
 
+if (nextVerseBtn) {
   nextVerseBtn.addEventListener('click', async () => {
   trace('nextVerseBtn.click', { currentCueIndex, audioTime: audio.currentTime.toFixed(3) });
 
@@ -1043,27 +1046,33 @@ audio.addEventListener("timeupdate", async () => {
   }
 });
 
-
+}
   /*** Prev/Next Dashakam UI buttons ***/
+if (prevDashakamBtn) {
   prevDashakamBtn.addEventListener('click', () => {
     if (currentDashakam > 1) loadDashakam(String(currentDashakam - 1).padStart(3, '0'));
   });
+}
+if (nextDashakamBtn) {
   nextDashakamBtn.addEventListener('click', () => {
     if (currentDashakam < totalDashakams) loadDashakam(String(currentDashakam + 1).padStart(3, '0'));
   });
-
+}
+if (prev10Btn) {
 prev10Btn.addEventListener('click', () => {
   const target = Math.max(1, currentDashakam - 10);
   loadDashakam(String(target).padStart(3, '0'), true);
 });
-
+}
+if (next10Btn) {
 next10Btn.addEventListener('click', () => {
   const target = Math.min(totalDashakams, currentDashakam + 10);
   loadDashakam(String(target).padStart(3, '0'), true);
 });
-
+}
 
 /*** Repeat toggles (mutually exclusive, with save + visual feedback) ***/
+if (repeatVerseBtn) {
 repeatVerseBtn.addEventListener('click', () => {
   repeatVerse = !repeatVerse;
   if (repeatVerse) {
@@ -1079,7 +1088,8 @@ repeatVerseBtn.addEventListener('click', () => {
 
   console.log(`🔁 Repeat Verse: ${repeatVerse}`);
 });
-
+}
+if (repeatDashakamBtn) {
 repeatDashakamBtn.addEventListener('click', () => {
   repeatDashakam = !repeatDashakam;
   if (repeatDashakam) {
@@ -1095,17 +1105,20 @@ repeatDashakamBtn.addEventListener('click', () => {
 
   console.log(`♾️ Repeat Dashakam: ${repeatDashakam}`);
 });
-
+}
 
   /*** Play/pause icon management (also handled by audio events) ***/
+if (playPauseBtn) {
   playPauseBtn.addEventListener('click', () => {
     if (audio.paused) audio.play().catch(()=>{});
     else audio.pause();
   });
+}
   audio.addEventListener('play', () => playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>');
   audio.addEventListener('pause', () => playPauseBtn.innerHTML = '<i class="fas fa-play"></i>');
 
   /*** Speed / Mute ***/
+if (speedBtn) {
   speedBtn.addEventListener('click', () => {
     speedIndex = (speedIndex + 1) % speedOptions.length;
     audio.playbackRate = speedOptions[speedIndex];
@@ -1114,12 +1127,13 @@ repeatDashakamBtn.addEventListener('click', () => {
     clearTimeout(speedTimeout);
     speedTimeout = setTimeout(() => { speedBtn.innerHTML = '<i class="fas fa-tachometer-alt"></i>'; }, 900);
   });
-
+}
+if (muteBtn) {
   muteBtn.addEventListener('click', () => {
     audio.muted = !audio.muted;
     muteBtn.innerHTML = audio.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
   });
-
+}
 document.addEventListener('click', (e) => {
   const panel = document.getElementById('gotoPanel');
   const toggle = document.getElementById('gotoToggle');
@@ -1495,13 +1509,13 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // Event listeners
-document.getElementById('themeSelect').addEventListener('change', e => applyTheme(e.target.value));
-document.getElementById('uiFontSelect').addEventListener('change', e => {
+document.getElementById('themeDots').addEventListener('change', e => applyTheme(e.target.value));
+document.getElementById('uiFontOptions').addEventListener('change', e => {
   const uiFont = e.target.value;
   const devaFont = localStorage.getItem('devaFont') || '"Tiro Devanagari Hindi", serif';
   applyFonts(uiFont, devaFont);
 });
-document.getElementById('devaFontSelect').addEventListener('change', e => {
+document.getElementById('devaFontOptions').addEventListener('change', e => {
   const devaFont = e.target.value;
   const uiFont = localStorage.getItem('uiFont') || '"Poppins", "Segoe UI", sans-serif';
   applyFonts(uiFont, devaFont);
