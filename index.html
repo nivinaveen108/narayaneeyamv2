@@ -461,12 +461,13 @@ h1 {
 
 /* responsive adjustments */
 @media (max-width: 820px) {
-  #verse { font-size: 1.5rem; line-height: 1.4; }
-  #splitWords { font-size: 1rem; }
-  #meaning { font-size: 0.9rem; }
+  #verse { font-size: calc(var(--verse-font) * 0.9); line-height: 1.4; }
+  #splitWords { font-size: calc(var(--split-font) * 0.9); }
+  #meaning { font-size: 0.9rem; } /* optional: you can make it variable too if needed */
   .group-select { min-width: 90px; font-size: 0.85rem; padding: 6px 8px; }
   #gotoPanel { width: calc(100vw - 16px); left: 8px; right: 8px; top: 40px; }
 }
+
 
 </style>
 
