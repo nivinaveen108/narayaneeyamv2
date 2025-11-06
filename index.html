@@ -1522,9 +1522,35 @@ document.getElementById('devaFontOptions').addEventListener('change', e => {
   applyFonts(uiFont, devaFont);
 });
 
+/*** Font size controls ***/
+const fontSmallerBtn = document.getElementById('fontSmaller');
+const fontLargerBtn = document.getElementById('fontLarger');
+
+let fontScale = 1; // default scaling factor
+
+function applyFontScale() {
+  document.documentElement.style.setProperty('--font-scale', fontScale);
+}
+
+if (fontSmallerBtn) {
+  fontSmallerBtn.addEventListener('click', () => {
+    fontScale = Math.max(0.5, fontScale - 0.05); // prevent too small
+    applyFontScale();
+  });
+}
+
+if (fontLargerBtn) {
+  fontLargerBtn.addEventListener('click', () => {
+    fontScale = Math.min(2, fontScale + 0.05); // prevent too large
+    applyFontScale();
+  });
+}
+
 
 
 </script>
+
+
   </main>
 </body>
 
