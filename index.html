@@ -618,6 +618,8 @@ h1 {
 <!-- subtitles -->
 <div id="subtitleContainer">
   <div class="foreground-overlay"></div>
+<div id="dashakamTitle" style="font-weight:700; font-size:1.4rem; margin-bottom:10px; color:var(--primary-dark);"></div>
+
   <div id="verse"></div>
   <div id="splitWords"></div>
   <div id="meaning"></div>
@@ -649,6 +651,108 @@ document.addEventListener('DOMContentLoaded', () => {
  const uiFontOptions = document.getElementById('uiFontOptions');
  const devaFontOptions = document.getElementById('devaFontOptions');
  const translitToggle = document.getElementById('translitToggle');
+const dashakamTitles = [
+  "Mahattvaṁ of Īśvara",
+  "Rūpasya Madhuratā",
+  "Bhakti-prārthanā",
+  "Aṣṭau-yogaḥ",
+  "Janmaḥ of Mahā-śakti",
+  "Viraṭ-Puruṣaḥ",
+  "Brahmā’s Tapas",
+  "Pralayasya janmaḥ of Brahmā",
+  "Brahmā’s Tapas",
+  "Sṛṣṭi-vividhatā",
+  "Hiranya-Kāśipuḥ’s Janma",
+  "Varāha-Avatāraḥ",
+  "Hiraṇyakṣaḥ’s Hānya",
+  "Kapila-avatāraḥ",
+  "Kapila’s Upadeśaḥ",
+  "Nārāyaṇa’s Avatāraḥ",
+  "Dhruva-kathā",
+  "Pruthu-kathā",
+  "Pracetas-kathā",
+  "Ṛṣabha-kathā",
+  "Nava-dvīpaḥ and Saptadvīpaḥ",
+  "Ājāmila-upadeśaḥ",
+  "Dakṣa and Citraketu-kathā",
+  "Prahlāda-kathā",
+  "Nṛsiṁha-avatāraḥ",
+  "Hastyānām Muktiḥ",
+  "Kṣīra-sāgara-mādhanaḥ",
+  "Lakṣmī’s Janma with Amṛtaḥ",
+  "Amṛta-choraṇaḥ",
+  "Vāmana-avatāraḥ",
+  "Mahā-Bālī’s Vinayaḥ",
+  "Matsya-avatāraḥ",
+  "Ambareśa-kathā",
+  "Rāma-kathā till Hanumān-milanaḥ",
+  "Rāma-kathā after Sugrīva-milanaḥ",
+  "Parashurāma-avatāraḥ",
+  "Krishna’s Janma-pūrva-ghaṭanāḥ",
+  "Kṛṣṇa-avatāraḥ",
+  "Yogamāyā-nirgamaḥ",
+  "Pūṭhanā’s Mokṣaḥ",
+  "Pūṭhanā’s Antima-sañcāraḥ",
+  "Cākatasura-hānyaḥ",
+  "Trinavarta-hānyaḥ",
+  "Kṛṣṇa-nāman karaṇaḥ",
+  "Kṛṣṇa-bālākhyā-khilanaḥ",
+  "Yashodā seeing the world in Kṛṣṇa’s mouth",
+  "Kṛṣṇa-pāṣa-saṅgaḥ",
+  "Kuberasya Putra’s Mōktaḥ",
+  "Vṛndāvana-praveśaḥ",
+  "Bakasura-hānyaḥ",
+  "Aghasura-hānyaḥ",
+  "Brahma’s Māna-nāśaḥ",
+  "Dhenukasura-hānyaḥ",
+  "Kali-yāgam Yamunā-sthānaḥ",
+  "Kṛṣṇa’s Nāṭya on Kali’s Śīrṣaḥ",
+  "Kali’s Māna-nāśaḥ",
+  "Pralambasura-hānyaḥ",
+  "Vana-Agni-rakṣāḥ",
+  "Vāṇī-gītaḥ",
+  "Gopīvastra-chōraṇaḥ",
+  "Brāhmaṇī-patnī-prasādaḥ",
+  "Govardhana-pūjā",
+  "Govardhana-uddhāraḥ",
+  "Govinda-abhisekaḥ",
+  "Gopī-saṅgaḥ with Kṛṣṇa",
+  "Gopī-sukhaḥ",
+  "Gopī-māna-nāśaḥ",
+  "Gopī-prānta-sukhaḥ",
+  "Rāsa-Krīḍā",
+  "Sudarśana-Śaṅkhacūḍā and Ariṣṭa",
+  "Keśi and Vyomasura-hānyaḥ",
+  "The coming of Akroora",
+  "Kṛṣṇa’s Mathurā-yātrā",
+  "Mathurā-praveśaḥ",
+  "Kāṁsa-hānyaḥ",
+  "Udhava-sandēśaḥ",
+  "Jarāsandha-sainya-hānyaḥ",
+  "Rukmāṇī-patra-prāptiḥ",
+  "Rukmāṇī-apahāraḥ",
+  "Śyāmaṁthaka-kathā",
+  "Kalindhī-vivāhaḥ, Parijāta-chōraṇaḥ",
+  "Bānasura-yuddhaḥ",
+  "Pauṇḍra-Vāsudeva-hānyaḥ",
+  "Śyāmaṁthaka-Pañcaka-yātrā",
+  "Jarāsandha and Śiśupāla-hānyaḥ",
+  "Śāla-hānyaḥ and Mahābhārata-yuddhaḥ",
+  "Kuchela-kathā",
+  "Santāna-Gopālaḥ",
+  "Vṛkasura and Brugu-hānyaḥ",
+  "Viṣṇu-mahimā-sthāpanaḥ",
+  "Īśvara-bhakti-mahimāḥ",
+  "Karma-saṅgīta-bhaktiḥ",
+  "Cātur-viṁśati-guṇaḥ",
+  "Darśana-jñāna-sṛṣṭiḥ",
+  "Dhyāna-vidhiḥ",
+  "Īśvara and Bhakti-śakti-sthānaḥ",
+  "Ādarśa-bhakti-prārthanā",
+  "Brahman-dhyānaḥ",
+  "Veda-prārthanā",
+  "Īśvara-vyākhyāṇa sarvānśaḥ"
+];
 
   /*** State ***/
   const totalDashakams = 100;
@@ -815,11 +919,20 @@ async function loadVTT(url) {
     if (sel) sel.style.background = getComputedStyle(document.documentElement).getPropertyValue('--primary-light') || '#a4d4a6';
   }
 
- /*** Load Dashakam (clean version) ***/
+/*** Load Dashakam (clean version) ***/
 async function loadDashakam(val, autoPlay = false) {
   console.log("🔄 Loading Dashakam:", val);
 
   currentDashakam = parseInt(val, 10);
+
+  // Update Dashakam title
+  const dashakamTitleDiv = document.getElementById('dashakamTitle');
+  if (dashakamTitleDiv) {
+    // Check if title exists in the array
+    const title = dashakamTitles[currentDashakam - 1] || `Dashakam ${String(currentDashakam).padStart(3, '0')}`;
+    dashakamTitleDiv.textContent = title;
+  }
+
   audio.pause();
   audio.src = `audio/Narayaneeyam_D${val}.mp3`;
   audio.preload = "auto";
