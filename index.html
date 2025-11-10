@@ -1333,20 +1333,20 @@ function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
   if (script === 'devanagari') {
-    // Mahāprāṇa consonants in Devanagari (single or within conjuncts)
-    const aspiratedRegex = /[खगछजठडथधफभ]/g;
+    // True Mahāprāṇa consonants + common aspirated conjuncts
+    const aspiratedRegex = /ख|घ|छ|झ|ठ|ढ|थ|ध|फ|भ|स्थि|स्वच्छ्|च्छा|र्भ|ब्दे|स्फु|द्भ|द्ध|ण्ठ/g;
     return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
   }
 
   if (script === 'malayalam') {
-    // Mahāprāṇa consonants in Malayalam
-    const aspiratedRegex = /[ഖഘഝജഠഢധഫഭ]/g;
+    // Malayalam aspirated consonants (can add clusters later if needed)
+    const aspiratedRegex = /ഖ|ഘ|ഛ|ഝ|ഠ|ഢ|ധ|ഫ|ഭ/g;
     return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
   }
 
   if (script === 'english') {
-    // English transliteration of aspirated consonants
-    const aspiratedRegex = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
+    // English transliteration of Mahāprāṇa consonants + some clusters
+    const aspiratedRegex = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh|sthi|svacchh|chha|rbh|bdhe|sphu|dbh|ddh|ṇṭh)\b/gi;
     return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
   }
 
