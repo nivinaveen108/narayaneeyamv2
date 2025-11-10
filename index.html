@@ -1329,27 +1329,27 @@ const devanagariRegex = /[\u0900-\u097F]+/g;
 // Malayalam range: 0D00–0D7F
 const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 
-
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
   switch (script) {
-    case 'devanagari':
-      // List of aspirated consonants
+    case 'devanagari': {
       const aspirated = 'खघछठढथधफभ';
-      // Match any consonant cluster ending with an aspirated letter
-      return text.replace(/[\u0900-\u097F]+/g, syllable => {
-        // Replace each aspirated consonant in the syllable (even in clusters)
-        return syllable.replace(new RegExp(`([्]?)([${aspirated}])`, 'g'), (_, virama, letter) => {
+      // Match any Devanagari cluster
+      return text.replace(devanagariRegex, cluster => {
+        // Replace aspirated letters, including ones in clusters with virama
+        return cluster.replace(new RegExp(`([्]?)([${aspirated}])`, 'g'), (_, virama, letter) => {
           return (virama || '') + `<span class="mahapraana">${letter}</span>`;
         });
       });
+    }
 
-    case 'malayalam':
+    case 'malayalam': {
       const malAsp = 'ഖഘഝഠഢധഫഭ';
-      return text.replace(/[\u0D00-\u0D7F]+/g, syllable => {
-        return syllable.replace(new RegExp(`[${malAsp}]`, 'g'), m => `<span class="mahapraana">${m}</span>`);
+      return text.replace(malayalamRegex, cluster => {
+        return cluster.replace(new RegExp(`[${malAsp}]`, 'g'), m => `<span class="mahapraana">${m}</span>`);
       });
+    }
 
     case 'english':
       return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi,
