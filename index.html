@@ -884,12 +884,7 @@ async function loadVTT(url) {
     )
   );
 
-  splitWordsDiv.innerHTML = nl2br(
-  //  highlightMahapraana(
-      showTranslit ? parsed.splitTrans : parsed.splitDev,
-      translitState
-  //  )
-  );
+splitWordsDiv.innerHTML = nl2br(showTranslit ? parsed.splitTrans : parsed.splitDev);
 
   // Meaning text usually doesn't have Mahāprāṇa letters
   meaningDiv.innerHTML = nl2br(parsed.meaning || '');
@@ -1069,11 +1064,9 @@ verseDiv.innerHTML = nl2br(
 );
 
 splitWordsDiv.innerHTML = nl2br(
- // highlightMahapraana(
-    showTranslit ? parts.splitTrans : parts.splitDev,
-    translitState
- // )
+    showTranslit ? parts.splitTrans : parts.splitDev
 );
+
 
 // Meaning text usually doesn't have Mahāprāṇa letters, so you can skip it
 meaningDiv.innerHTML = nl2br(parts.meaning || '');
