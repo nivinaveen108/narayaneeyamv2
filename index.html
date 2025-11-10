@@ -1329,30 +1329,29 @@ const devanagariRegex = /[\u0900-\u097F]+/g;
 // Malayalam range: 0D00–0D7F
 const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 
+
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
   switch(script) {
     case 'devanagari':
-      // highlight aspirated letters anywhere inside words/conjuncts
-      return text.replace(devanagariRegex, syllable => {
-        return syllable.replace(/[खघछठढथधफभ]/g, m => `<span class="mahapraana">${m}</span>`);
+      // Match letters with optional preceding virama (conjuncts)
+      return text.replace(/[\u0900-\u097F]+/g, syllable => {
+        return syllable.replace(/(?:\u094D)?[खघछठढथधफभ]/g, m => `<span class="mahapraana">${m}</span>`);
       });
 
     case 'malayalam':
-      return text.replace(malayalamRegex, syllable => {
+      return text.replace(/[\u0D00-\u0D7F]+/g, syllable => {
         return syllable.replace(/[ഖഘഝഠഢധഫഭ]/g, m => `<span class="mahapraana">${m}</span>`);
       });
 
     case 'english':
-      // only standalone digraphs
       return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi, m => `<span class="mahapraana">${m}</span>`);
 
     default:
       return text;
   }
 }
-
   /*** Time formatting / display (periodic refresh) ***/
   function formatTime(s) {
     if (!s || isNaN(s)) return '00:00';
