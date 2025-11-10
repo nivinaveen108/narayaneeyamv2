@@ -1321,28 +1321,52 @@ document.addEventListener('click', (e) => {
 });
 
 
-// Devanagari Mahāprāṇa letters including inside conjuncts
-const devanagariMahapraanas = /(?:\u0930?\u094D)?[खघछठढथधफभ]/g;
+// ---------------- Robust Mahāprāṇa highlighting ----------------
 
-// English transliteration Mahāprāṇa
-const englishMahapraanas = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
+// Devanagari aspirated consonants
+const devanagariAspirates = ['ख','घ','छ','ठ','ढ','थ','ध','फ','भ'];
 
-// Malayalam Mahāprāṇa letters
-const malayalamMahapraanas = /[ഖഘഝഠഢധഫഭ]/g;
+// English transliteration aspirates
+const englishAspirates = ['kh','gh','chh','jh','ṭh','ḍh','th','dh','ph','bh'];
 
+// Malayalam aspirates
+const malayalamAspirates = ['ഖ','ഘ','ഝ','ഠ','ഢ','ധ','ഫ','ഭ'];
+
+/**
+ * Highlight Mahāprāṇa letters inside all syllables / conjuncts
+ */
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
-  switch (script) {
+  switch(script) {
     case 'devanagari':
-      // Highlight aspirated letters even inside conjuncts
-      return text.replace(devanagariMahapraanas, m => `<span class="mahapraana">${m}</span>`);
-
-    case 'english':
-      return text.replace(englishMahapraanas, m => `<span class="mahapraana">${m}</span>`);
+      // Match each Devanagari syllable (\p{Devanagari}+) and replace aspirates inside it
+      return text.replace(/\p{Devanagari}+/gu, syllable => {
+        devanagariAspirates.forEach(a => {
+          const re = new RegExp(a, 'g');
+          syllable = syllable.replace(re, `<span class="mahapraana">${a}</span>`);
+        });
+        return syllable;
+      });
 
     case 'malayalam':
-      return text.replace(malayalamMahapraanas, m => `<span class="mahapraana">${m}</span>`);
+      // Malayalam syllables (\p{Malayalam}+)
+      return text.replace(/\p{Malayalam}+/gu, syllable => {
+        malayalamAspirates.forEach(a => {
+          const re = new RegExp(a, 'g');
+          syllable = syllable.replace(re, `<span class="mahapraana">${a}</span>`);
+        });
+        return syllable;
+      });
+
+    case 'english':
+      // Match all aspirates inside words
+      let result = text;
+      englishAspirates.forEach(a => {
+        const re = new RegExp(a, 'gi');
+        result = result.replace(re, m => `<span class="mahapraana">${m}</span>`);
+      });
+      return result;
 
     default:
       return text;
