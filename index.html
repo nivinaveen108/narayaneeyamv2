@@ -1326,13 +1326,13 @@ document.addEventListener('click', (e) => {
 
 
 // Devanagari Mahāprāṇa letters
-const devanagariMahapraanas = /[खगघछजझटठडढथधफभ]/g;
+const devanagariMahapraanas = /[खघछठढथधफभ]/g;
 
 // English transliteration Mahāprāṇa (common IAST aspirated letters)
-const englishMahapraanas = /\b(kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
+const englishMahapraanas = /\b(kh|gh|chh|jh|ṭh|ḍh|dh|ph|bh)\b/gi;
 
 // Malayalam Mahāprāṇa letters (kaṭṭa letters)
-const malayalamMahapraanas = /[ഖഘചഝടഠഡഢതധഫഭ]/g;
+const malayalamMahapraanas = /[ഖഘഝഠഢധഫഭ]/g;
 
 function highlightMahapraana(text, script='devanagari') {
   if (!text) return '';
