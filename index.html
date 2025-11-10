@@ -1321,7 +1321,7 @@ document.addEventListener('click', (e) => {
 });
 
 
-// ---------------- Robust Mahāprāṇa highlighting ----------------
+// ---------------- Robust Mahāprāṇa highlighting ---------------- 
 
 // Devanagari range: 0900–097F
 const devanagariRegex = /[\u0900-\u097F]+/g;
@@ -1334,29 +1334,24 @@ function highlightMahapraana(text, script = 'devanagari') {
 
   switch(script) {
     case 'devanagari':
+      // highlight aspirated letters anywhere inside words/conjuncts
       return text.replace(devanagariRegex, syllable => {
-        ['ख','घ','छ','ठ','ढ','थ','ध','फ','भ'].forEach(a => {
-          syllable = syllable.replace(new RegExp(a, 'g'), `<span class="mahapraana">${a}</span>`);
-        });
-        return syllable;
+        return syllable.replace(/[खघछठढथधफभ]/g, m => `<span class="mahapraana">${m}</span>`);
       });
 
     case 'malayalam':
       return text.replace(malayalamRegex, syllable => {
-        ['ഖ','ഘ','ഝ','ഠ','ഢ','ധ','ഫ','ഭ'].forEach(a => {
-          syllable = syllable.replace(new RegExp(a, 'g'), `<span class="mahapraana">${a}</span>`);
-        });
-        return syllable;
+        return syllable.replace(/[ഖഘഝഠഢധഫഭ]/g, m => `<span class="mahapraana">${m}</span>`);
       });
 
     case 'english':
+      // only standalone digraphs
       return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi, m => `<span class="mahapraana">${m}</span>`);
 
     default:
       return text;
   }
 }
-
 
   /*** Time formatting / display (periodic refresh) ***/
   function formatTime(s) {
