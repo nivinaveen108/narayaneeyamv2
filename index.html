@@ -454,6 +454,10 @@ h1 {
   max-height: 70vh;
   overflow-y: auto; /* prevents overflow off-screen */
 }
+.mahapraana {
+  color: #d32f2f; /* bright red */
+  font-weight: 700;
+}
 
 /* Remove scrollbar look globally */
 ::-webkit-scrollbar { display: none; }
@@ -618,10 +622,7 @@ h1 {
 <!-- subtitles -->
 <div id="subtitleContainer">
   <div class="foreground-overlay"></div>
-<div id="dashakamTitle" 
-     style="font-weight:700; font-size:1.4rem; margin-bottom:10px; color:var(--primary-dark); text-decoration: underline;">
-</div>
-
+<div id="dashakamTitle" style="font-weight:700; font-size:1.4rem; margin-bottom:10px; color:var(--primary-dark);"></div>
 
   <div id="verse"></div>
   <div id="splitWords"></div>
@@ -1045,9 +1046,23 @@ async function loadDashakam(val, autoPlay = false) {
     // finalize UI state regardless of absolute success
     currentCueIndex = index;
     const parts = parseCueText(cue.text);
-    verseDiv.innerHTML = nl2br(showTranslit ? parts.verseTrans : parts.verseDev);
-    splitWordsDiv.innerHTML = nl2br(showTranslit ? parts.splitTrans : parts.splitDev);
-    meaningDiv.innerHTML = nl2br(parts.meaning || '');
+verseDiv.innerHTML = nl2br(
+  highlightMahapraana(
+    showTranslit ? parts.verseTrans : parts.verseDev,
+    translitState
+  )
+);
+
+splitWordsDiv.innerHTML = nl2br(
+  highlightMahapraana(
+    showTranslit ? parts.splitTrans : parts.splitDev,
+    translitState
+  )
+);
+
+// Meaning text usually doesn't have Mahāprāṇa letters, so you can skip it
+meaningDiv.innerHTML = nl2br(parts.meaning || '');
+
     updateCurrentInfo();
 
     // resume play if requested
@@ -1293,6 +1308,29 @@ document.addEventListener('click', (e) => {
     toggle.setAttribute('aria-expanded', 'false');
   }
 });
+
+
+// Devanagari Mahāprāṇa letters
+const devanagariMahapraanas = /[खगघछजझटठडढथधफभ]/g;
+
+// English transliteration Mahāprāṇa (common IAST aspirated letters)
+const englishMahapraanas = /\b(kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
+
+// Malayalam Mahāprāṇa letters (kaṭṭa letters)
+const malayalamMahapraanas = /[ഖഘചഝടഠഡഢതധഫഭ]/g;
+
+function highlightMahapraana(text, script='devanagari') {
+  if (!text) return '';
+  switch(script) {
+    case 'devanagari':
+      return text.replace(devanagariMahapraanas, m => `<span class="mahapraana">${m}</span>`);
+    case 'english':
+      return text.replace(englishMahapraanas, m => `<span class="mahapraana">${m}</span>`);
+    case 'malayalam':
+      return text.replace(malayalamMahapraanas, m => `<span class="mahapraana">${m}</span>`);
+    default: return text;
+  }
+}
 
 
   /*** Time formatting / display (periodic refresh) ***/
