@@ -1332,31 +1332,18 @@ const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
-  const devanagariAspirated = 'खघछठढथधफभ';
-  const malayalamAspirated = 'ഖഘഝഠഢധഫഭ';
+  const devanagariAspirated = /[खघछठढथधफभ]/g;
 
   switch(script) {
     case 'devanagari':
-      return Array.from(text).map(char => {
-        if (devanagariAspirated.includes(char)) {
-          return `<span class="mahapraana">${char}</span>`;
-        }
-        return char;
-      }).join('');
-
+      return text.replace(devanagariAspirated, m => `<span class="mahapraana">${m}</span>`);
     case 'malayalam':
-      return Array.from(text).map(char => {
-        if (malayalamAspirated.includes(char)) {
-          return `<span class="mahapraana">${char}</span>`;
-        }
-        return char;
-      }).join('');
-
+      const malayalamAspirated = /[ഖഘഝഠഢധഫഭ]/g;
+      return text.replace(malayalamAspirated, m => `<span class="mahapraana">${m}</span>`);
     case 'english':
       return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi,
         m => `<span class="mahapraana">${m}</span>`
       );
-
     default:
       return text;
   }
