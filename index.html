@@ -1332,24 +1332,25 @@ const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
-  switch (script) {
-    case 'devanagari': {
-      const aspirated = 'खघछठढथधफभ';
-      // Match any Devanagari cluster
-      return text.replace(devanagariRegex, cluster => {
-        // Replace aspirated letters, including ones in clusters with virama
-        return cluster.replace(new RegExp(`([्]?)([${aspirated}])`, 'g'), (_, virama, letter) => {
-          return (virama || '') + `<span class="mahapraana">${letter}</span>`;
-        });
-      });
-    }
+  const devanagariAspirated = 'खघछठढथधफभ';
+  const malayalamAspirated = 'ഖഘഝഠഢധഫഭ';
 
-    case 'malayalam': {
-      const malAsp = 'ഖഘഝഠഢധഫഭ';
-      return text.replace(malayalamRegex, cluster => {
-        return cluster.replace(new RegExp(`[${malAsp}]`, 'g'), m => `<span class="mahapraana">${m}</span>`);
-      });
-    }
+  switch(script) {
+    case 'devanagari':
+      return Array.from(text).map(char => {
+        if (devanagariAspirated.includes(char)) {
+          return `<span class="mahapraana">${char}</span>`;
+        }
+        return char;
+      }).join('');
+
+    case 'malayalam':
+      return Array.from(text).map(char => {
+        if (malayalamAspirated.includes(char)) {
+          return `<span class="mahapraana">${char}</span>`;
+        }
+        return char;
+      }).join('');
 
     case 'english':
       return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi,
@@ -1360,7 +1361,6 @@ function highlightMahapraana(text, script = 'devanagari') {
       return text;
   }
 }
-
 
   /*** Time formatting / display (periodic refresh) ***/
   function formatTime(s) {
