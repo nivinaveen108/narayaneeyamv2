@@ -457,6 +457,18 @@ h1 {
 
 /* Remove scrollbar look globally */
 ::-webkit-scrollbar { display: none; }
+  
+.foreground-overlay {
+  position: fixed;
+  inset: 0;
+  background: url('https://raw.githubusercontent.com/nivinaveen108/narayaneeyamv2/main/Guruvayoorappan.jpg')
+              center/contain no-repeat;
+  opacity: 0.08;        /* faint but visible */
+  pointer-events: none;
+  z-index: 5;
+  mix-blend-mode: normal;
+}
+
 
 
 /* responsive adjustments */
@@ -473,6 +485,7 @@ h1 {
 
 </head>
 <body>
+  <div class="foreground-overlay"></div>
   <main>
     <h1>Nārāyaṇīyam Player</h1>
 <button id="homeBtn" onclick="window.location.href='https://www.nivi108.com'">
@@ -480,6 +493,8 @@ h1 {
 </button>
 
 
+
+  
 <!-- audio controls - unified panel -->
 <div id="audioControls" aria-label="Audio controls">
 
