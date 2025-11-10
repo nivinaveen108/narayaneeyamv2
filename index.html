@@ -876,9 +876,22 @@ async function loadVTT(url) {
     if (!cues || index < 0 || index >= cues.length) return;
     currentCueIndex = index;
     const parsed = parseCueText(cues[index].text);
-    verseDiv.innerHTML = nl2br(showTranslit ? parsed.verseTrans : parsed.verseDev);
-    splitWordsDiv.innerHTML = nl2br(showTranslit ? parsed.splitTrans : parsed.splitDev);
-    meaningDiv.innerHTML = nl2br(parsed.meaning || '');
+verseDiv.innerHTML = nl2br(
+  highlightMahapraana(
+    showTranslit ? parts.verseTrans : parts.verseDev,
+    translitState
+  )
+);
+
+splitWordsDiv.innerHTML = nl2br(
+  highlightMahapraana(
+    showTranslit ? parts.splitTrans : parts.splitDev,
+    translitState
+  )
+);
+
+// Meaning text usually doesn't have Mahāprāṇa letters, so you can skip it
+meaningDiv.innerHTML = nl2br(parts.meaning || '');
   }
 
   /*** Minimal group grid + highlight (to avoid undefined errors) ***/
