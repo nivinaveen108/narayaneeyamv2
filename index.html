@@ -1332,21 +1332,23 @@ const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
 
-  const devanagariAspirated = /[खघछठढथधफभ]/g;
-
-  switch(script) {
-    case 'devanagari':
-      return text.replace(devanagariAspirated, m => `<span class="mahapraana">${m}</span>`);
-    case 'malayalam':
-      const malayalamAspirated = /[ഖഘഝഠഢധഫഭ]/g;
-      return text.replace(malayalamAspirated, m => `<span class="mahapraana">${m}</span>`);
-    case 'english':
-      return text.replace(/\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi,
-        m => `<span class="mahapraana">${m}</span>`
-      );
-    default:
-      return text;
+  if (script === 'devanagari') {
+    // Mahāprāṇa consonants in Devanagari
+    const aspiratedRegex = /[खघछठढथधफभ]/g;
+    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
   }
+
+  if (script === 'malayalam') {
+    const aspiratedRegex = /[ഖഘഝഠഢധഫഭ]/g;
+    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
+  }
+
+  if (script === 'english') {
+    const aspiratedRegex = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
+    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
+  }
+
+  return text;
 }
 
   /*** Time formatting / display (periodic refresh) ***/
