@@ -1325,13 +1325,13 @@ document.addEventListener('click', (e) => {
 });
 
 
-// Devanagari Mahāprāṇa letters (highlight even inside conjuncts)
-const devanagariMahapraanas = /[खघछठढथधफभ]/g;
+// Devanagari Mahāprāṇa letters including inside conjuncts
+const devanagariMahapraanas = /(?:\u0930?\u094D)?[खघछठढथधफभ]/g;
 
-// English transliteration Mahāprāṇa (common IAST aspirated letters)
+// English transliteration Mahāprāṇa
 const englishMahapraanas = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh)\b/gi;
 
-// Malayalam Mahāprāṇa letters (kaṭṭa letters)
+// Malayalam Mahāprāṇa letters
 const malayalamMahapraanas = /[ഖഘഝഠഢധഫഭ]/g;
 
 function highlightMahapraana(text, script = 'devanagari') {
@@ -1339,15 +1339,13 @@ function highlightMahapraana(text, script = 'devanagari') {
 
   switch (script) {
     case 'devanagari':
-      // Highlight each Mahāprāṇa letter individually, even inside conjuncts
+      // Highlight aspirated letters even inside conjuncts
       return text.replace(devanagariMahapraanas, m => `<span class="mahapraana">${m}</span>`);
 
     case 'english':
-      // Highlight full aspirated consonant clusters (kh, gh, chh, etc.)
       return text.replace(englishMahapraanas, m => `<span class="mahapraana">${m}</span>`);
 
     case 'malayalam':
-      // Highlight Malayalam aspirated letters
       return text.replace(malayalamMahapraanas, m => `<span class="mahapraana">${m}</span>`);
 
     default:
