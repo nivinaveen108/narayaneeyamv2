@@ -1331,23 +1331,45 @@ const malayalamRegex = /[\u0D00-\u0D7F]+/g;
 
 function highlightMahapraana(text, script = 'devanagari') {
   if (!text) return '';
+  // Normalize to avoid weird mobile glyph issues
+  text = String(text).normalize('NFC');
 
   if (script === 'devanagari') {
-    // True Mahāprāṇa consonants + common aspirated conjuncts
-    const aspiratedRegex = /ख|घ|छ|झ|ठ|ढ|थ|ध|फ|भ|स्थि|स्वच्छ्|च्छा|र्भ|ब्दे|स्फु|द्भ|द्ध|ण्ठ/g;
-    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
+    const devanagariPatterns = [
+      // basic aspirates
+      'ख','घ','छ','झ','ठ','ढ','थ','ध','फ','भ',
+      // frequent aspirated clusters / conjuncts you asked to include
+      'स्थ','स्थि','स्फ','स्फु','द्भ','द्घ','द्ध','ण्ठ','च्छ','च्छा','ря', // keep 'ря' if needed remove otherwise
+      'र्भ','ब्ध','ब्धे','र्थ','ग्ध','न्ध','र्थ्य','र्था'
+    ];
+    const re = new RegExp(devanagariPatterns.join('|'), 'g');
+    return text.replace(re, m => `<span class="mahapraana">${m}</span>`);
   }
 
   if (script === 'malayalam') {
-    // Malayalam aspirated consonants (can add clusters later if needed)
-    const aspiratedRegex = /ഖ|ഘ|ഛ|ഝ|ഠ|ഢ|ധ|ഫ|ഭ/g;
-    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
+    // Use ഛ (U+0D1B) for aspirated 'ch' and include common variants.
+    // Note: Malayalam orthography often uses virama/conjuncts; we include common forms.
+    const malPatterns = [
+      // basic aspirates (one-to-one)
+      'ഖ','ഘ','ഛ','ഝ','ഠ','ഢ','ഥ','ധ','ഫ','ഭ',
+      // variants / clusters (use ്-less conjunct-like sequences where common)
+      'സ്ഥ','സ്ഥി','സ്ഫ','സ്ഫു','ദ്ഭ','ദ്ഘ','ദ്ധ','ണ്ഠ',
+      // Ensure the aspirated CH uses ഛ forms instead of 'ച്ച'
+      'ഛാ','ഛ്','സ്വഛ','ഛ്ച','ഛ്ത',
+      'ർഭ','ബ്ധ','ബ്ധെ','ർഥ','ഗ്ധ','ന്ധ','ര്‍ത്ഥ്യ','ര്‍ത്ഥാ'
+    ];
+    const re = new RegExp(malPatterns.join('|'), 'g');
+    return text.replace(re, m => `<span class="mahapraana">${m}</span>`);
   }
 
   if (script === 'english') {
-    // English transliteration of Mahāprāṇa consonants + some clusters
-    const aspiratedRegex = /\b(kh|gh|chh|jh|ṭh|ḍh|th|dh|ph|bh|sthi|svacchh|chha|rbh|bdhe|sphu|dbh|ddh|ṇṭh)\b/gi;
-    return text.replace(aspiratedRegex, m => `<span class="mahapraana">${m}</span>`);
+    const engPatterns = [
+      'kh','gh','chh','jh','ṭh','ḍh','th','dh','ph','bh',
+      'stha','sthi','sph','sphu','dbh','ddh','ṇṭh',
+      'cch','cchā','svacch','rbh','bdh','bdhe','rth','gdh','ndh','rthya','rthā'
+    ];
+    const re = new RegExp(engPatterns.join('|'), 'gi');
+    return text.replace(re, m => `<span class="mahapraana">${m}</span>`);
   }
 
   return text;
